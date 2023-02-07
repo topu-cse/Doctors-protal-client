@@ -1,13 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUser } = useContext(AuthContext);
     const [signUpError, setSignUPError] = useState('')
+    const [createdUserEmail, setvreateUserEmail] = useState('')
+    const [token] = useToken(createdUserEmail)
+    const navigate = useNavigate()
+
+    if(token){
+       navigate('/') 
+    }
+
     const handleSignUp = (data) => {
         console.log(data);
         setSignUPError('');
@@ -21,8 +30,8 @@ const SignUp = () => {
                 }
                 updateUser(userInfo)
                     .then(() => {
-                        saveUser(data.name,data.email);
-                     })
+                        saveUser(data.name, data.email);
+                    })
                     .catch(err => console.log(err));
             })
             .catch(error => {
@@ -30,32 +39,25 @@ const SignUp = () => {
                 setSignUPError(error.message)
             });
     }
-    const saveUser=(name,email)=>{
-        const user={name,email}
-        fetch('http://localhost:5000/users',{
-            method:'POST',
-            headers:{
-                'content-type':'application/json'
+    const saveUser = (name, email) => {
+        const user = { name, email }
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
             },
-            body:JSON.stringify(user)
+            body: JSON.stringify(user)
         })
-        .then(res=>res.json())
-        .then(data=>{
-        getuserToken(email)
-           
-        })
+            .then(res => res.json())
+            .then(data => {
+                setvreateUserEmail(email);
+
+            })
     }
+    //value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
 
+    const getuserToken = email => {
 
-    const getuserToken=email=>{
-        fetch (`http://localhost:5000/jwt?email=${email}`)
-        .then(res=>res.json())
-        .then(data=>{
-            if(data.accessToken){
-                localStorage.setItem('accessToken',data.accessToken)
-                  Navigate('/');
-              }
-        })
     }
 
     return (
