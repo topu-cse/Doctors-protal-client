@@ -5,6 +5,8 @@ import Loading from '../../Shared/Loading/Loading';
 
 const Adddoctors = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const imageHostKey=process.env.REACT_APP_imgbb_key;
+  
     const{data:specialties,isLoading}=useQuery({
         queryKey:['specialty'],
         queryFn:async()=>{
@@ -14,7 +16,20 @@ const Adddoctors = () => {
         }
     })
     const handleAddDoctor = data => {
-        console.log(data)
+        const image = data.image[0];
+        const formData = new FormData();
+        formData.append('image', image);
+        const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(imgData =>{
+            if(imgData.success){
+                console.log(imgData.data.url)
+            }
+        })
     }
     if(isLoading){
          return <Loading></Loading>
@@ -55,16 +70,24 @@ const Adddoctors = () => {
                 </div>
                 <div className="form-control w-full max-w-xs">
                     <label className="label"> <span className="label-text">Photo</span></label>
-                    <input type="file" {...register("img", {
+                    <input type="file" {...register("image", {
                         required: "Photo  is Required"
                     })} className="input input-bordered w-full max-w-xs" />
                     {errors.img && <p className='text-red-500'>{errors.img.message}</p>}
                 </div>
                 <input className='btn btn-accent w-full mt-4' value="Add Doctor" type="submit" />
-                {/* {signUpError && <p className='text-red-600'>{signUpError}</p>} */}
+              
             </form>
         </div>
     );
 };
+
+
+/**
+ * Three places to store images
+ * 1 3rd party  image hosting server
+ * 2.file system of your server
+ * 3.    Mogodb
+ */
 
 export default Adddoctors;
