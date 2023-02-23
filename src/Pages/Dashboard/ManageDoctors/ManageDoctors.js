@@ -1,9 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
+import ConfimationModal from '../../Shared/ComfimationModal/ConfimationModal';
 import Loading from '../../Shared/Loading/Loading';
 
 const ManageDoctors = () => {
-  const { data: doctors,isLoading } = useQuery({
+  const [deletingDoctor,setDeletingDoctor]=useState(null)
+
+  const closeModal=()=>{
+    setDeletingDoctor(null);
+  }
+
+  const handeleDeleteDoctor=doctor=>{
+    console.log(doctor)
+  }
+
+  const { data: doctors, isLoading } = useQuery({
     queryKey: ['doctors'],
     queryFn: async () => {
       try {
@@ -20,9 +31,9 @@ const ManageDoctors = () => {
       }
     }
   })
-if(isLoading){
-  return <Loading></Loading>
-}
+  if (isLoading) {
+    return <Loading></Loading>
+  }
   return (
     <div>
       <h2 className="text-3xl mb-4">Manage Doctors: {doctors?.length}</h2>
@@ -52,13 +63,26 @@ if(isLoading){
                 <td>{doctor.name}</td>
                 <td>{doctor.email}</td>
                 <td>{doctor.specialty}</td>
-                <td><button className="btn btn-outline btn-accent">Delete</button></td>
+                <td>
+                  <label onClick={()=> setDeletingDoctor(doctor)} htmlFor="confimationModal" className="btn btn-outline btn-accent">Delete</label>
+                  
+                </td>
               </tr>)
             }
 
           </tbody>
         </table>
       </div>
+      {
+        deletingDoctor&& <ConfimationModal
+        title={`Are you sure you want to delete`}
+        message={`If you delete ${deletingDoctor.name}. It cannot be undone`}
+        successAction={handeleDeleteDoctor}
+        modalData={deletingDoctor}
+        closeModal={closeModal}
+
+        ></ConfimationModal>
+      }
     </div>
   );
 };
