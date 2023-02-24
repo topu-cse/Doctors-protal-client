@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import ConfimationModal from '../../Shared/ComfimationModal/ConfimationModal';
 import Loading from '../../Shared/Loading/Loading';
 
@@ -10,11 +11,10 @@ const ManageDoctors = () => {
     setDeletingDoctor(null);
   }
 
-  const handeleDeleteDoctor=doctor=>{
-    console.log(doctor)
-  }
+  
 
-  const { data: doctors, isLoading } = useQuery({
+  const { data: doctors, isLoading,refetch } = useQuery({
+    
     queryKey: ['doctors'],
     queryFn: async () => {
       try {
@@ -31,6 +31,24 @@ const ManageDoctors = () => {
       }
     }
   })
+ 
+
+  const handeleDeleteDoctor=doctor=>{
+    fetch(`http://localhost:5000/doctors/${doctor._id}`,{
+     method:'DELETE',
+     headers: {
+       authorization: `bearer ${localStorage.getItem('accessToken')}`
+     }
+    })
+    .then(res=>res.json())
+     .then(data=>{
+       if(data.deletedCount > 0){
+        refetch();
+        toast.success(`doctor ${doctor.name} deleted succesfully`)
+       }
+     })
+   }
+
   if (isLoading) {
     return <Loading></Loading>
   }
@@ -51,9 +69,8 @@ const ManageDoctors = () => {
             </tr>
           </thead>
           <tbody>
-
-            {
-              doctors.map((doctor, i) => <tr key={doctor._id}>
+          {
+           doctors.map((doctor, i) => <tr key={doctor._id}>
                 <th>{i + 1}</th>
                 <td><div className="avatar">
                   <div className="w-24 rounded-full">
@@ -78,6 +95,7 @@ const ManageDoctors = () => {
         title={`Are you sure you want to delete`}
         message={`If you delete ${deletingDoctor.name}. It cannot be undone`}
         successAction={handeleDeleteDoctor}
+        successButtonName='Delete'
         modalData={deletingDoctor}
         closeModal={closeModal}
 
@@ -88,3 +106,5 @@ const ManageDoctors = () => {
 };
 
 export default ManageDoctors;
+
+
