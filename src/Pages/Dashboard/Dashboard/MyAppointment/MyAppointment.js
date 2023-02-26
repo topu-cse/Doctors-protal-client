@@ -6,6 +6,8 @@ import { AuthContext } from '../../../../contexts/AuthProvider';
 const MyAppointment = () => {
     const { user } = useContext(AuthContext);
 
+    
+
     const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
     const { data: bookings = [] } = useQuery({
@@ -21,9 +23,10 @@ const MyAppointment = () => {
         }
     })
 
+
     return (
         <div>
-            <h3 className="text-3xl mb-5">My Appointments</h3>
+            <h3 className="text-3xl mb-5">My Appointments:{bookings.length}</h3>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
@@ -36,7 +39,8 @@ const MyAppointment = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
+                    {
+                            bookings && bookings.length &&
                             bookings.map((booking, i) => <tr key={booking._id}>
                                 <th>{i+1}</th>
                                 <td>{booking.patient}</td>
