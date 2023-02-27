@@ -1,6 +1,8 @@
+import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
+import CheckoutFrom from './CheckoutFrom';
 
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
@@ -13,6 +15,11 @@ const Payment = () => {
         <div>
             <h2 className='text-3xl'>Payment for {treatment} </h2>
             <p className='text-xl'>pleace pay ${ price} for your appointment on {appointmentDate} at {slot}</p>
+            <div className='w-96 my-12'>
+            <Elements stripe={stripePromise}>
+      <CheckoutFrom />
+    </Elements>
+            </div>
         </div>
     );
 };
