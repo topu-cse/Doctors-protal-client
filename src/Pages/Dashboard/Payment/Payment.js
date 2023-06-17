@@ -7,6 +7,8 @@ import CheckoutFrom from './CheckoutFrom';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
+
+
 const Payment = () => {
     const booking=useLoaderData();
     const {treatment,price, appointmentDate,slot}=booking;

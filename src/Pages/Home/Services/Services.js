@@ -10,19 +10,19 @@ const Services = () => {
         {
             id: 1,
             name: 'Fluoride Treatment',
-            description: 'Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the',
+            description: 'Fluoride is an inorganic,monatomic anion of fluorine, with the chemical formula , whose salts are typically white or colorless.',
             img: fluoride
         },
         {
             id: 2,
             name: 'Cavity Filling',
-            description: 'Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the',
+            description: 'The number one question many people have before getting their first cavity filled',
             img: cavity
         },
         {
             id: 3,
             name: 'Teeth Whitening',
-            description: 'Lorem Ipsum is simply dummy printing and typesetting indust Ipsum has been the',
+            description: 'Teeth whitening products whether an over-the-counter option you use at home or a professional treatment',
             img: whitening
         },
     ]

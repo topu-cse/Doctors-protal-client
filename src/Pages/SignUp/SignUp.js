@@ -56,9 +56,7 @@ const SignUp = () => {
     }
     //value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
 
-    const getuserToken = email => {
-
-    }
+   
 
     return (
         <div className='h-[800px] flex justify-center items-center'>
@@ -84,7 +82,7 @@ const SignUp = () => {
                         <input type="password" {...register("password", {
                             required: "Password is required",
                             minLength: { value: 6, message: "Password must be 6 characters long" },
-                            pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: 'Password must have uppercase, number and special characters' }
+                            
                         })} className="input input-bordered w-full max-w-xs" />
                         {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
                     </div>

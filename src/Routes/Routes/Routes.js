@@ -13,6 +13,8 @@ import DispalyError from "../../Pages/Shared/DisPlayError/DispalyError";
 import SignUp from "../../Pages/SignUp/SignUp";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Contact from "../../Pages/Contact/Contact";
+import Allbooking from "../../Pages/Dashboard/Allbooking/Allbooking";
 
 const router = createBrowserRouter([
     {
@@ -35,7 +37,11 @@ const router = createBrowserRouter([
             {
                 path: '/appointment',
                 element: <Appointment></Appointment>
-            }
+            },
+            {
+                path: 'contactus',
+                element: <Contact></Contact>
+            },
         ]
     },
     {
@@ -50,6 +56,10 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/allusers',
                 element:<AdminRoute><Alusers></Alusers></AdminRoute>
+            },
+            {
+                path:'/dashboard/allbooking',
+                element:<AdminRoute><Allbooking></Allbooking></AdminRoute>
             },
             {
                 path:'/dashboard/adddoctors',

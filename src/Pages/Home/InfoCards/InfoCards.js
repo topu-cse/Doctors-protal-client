@@ -17,17 +17,18 @@ const InfoCards = () => {
         {
             id: 2,
             name: 'Our Locations',
-            description: 'Open 9.00 am to 5.00pm everyday',
+            description: 'Dhaka, Bangladesh',
             icon: marker,
             bgClass: 'bg-accent'
         },
         {
             id: 3,
             name: 'Contact Us',
-            description: 'Open 9.00 am to 5.00pm everyday',
+            description: 'topu15-3604@diu.edu.bd',
             icon: phone,
             bgClass: 'bg-gradient-to-r from-primary to-secondary'
         },
+      
     ]
 
     return (
